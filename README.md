@@ -97,7 +97,6 @@ import { observer } from 'mobx-react-lite'
 export function useMousePosition() {
   const position = useMemo(() => observable({ x: 0, y: 0 }), [])
   useEffect(() => {
-    console.log('useEffect')
     const update = e =>
       runInAction(() => {
         position.x = e.pageX
