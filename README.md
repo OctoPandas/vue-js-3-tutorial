@@ -67,6 +67,56 @@ composable 其实就是一个最小的可复用单元，方便在多个组件间
 
 使用 ref 封装的响应式数据，必须使用 value 属性获得。在 template 中可以省略 value，Vue 会自行处理。抽取 composable 的过程和抽取 Hooks 的过程类似，本质上只是一个函数调用。
 
+```js
+import { ref, onMounted, onUnmounted } from 'vue'
+
+function useMousePosition() {
+  const x = ref(0), y = ref(0)
+  const update = e => {
+    x.value = e.pageX
+    y.value = e.pageY
+  }
+  onMounted(() => document.addEventListener('mousemove', update))
+  onUnmounted(() => doucment.removeEvenetListener('mousemove', update))
+  return { x, y }
+}
+
+export default {
+  setup() {
+    const { x, y } = useMousePosition()
+    return { position: [x, y] }
+  }
+}
+```
+
+```jsx
+import { observable, runInAction } from 'mobx'
+import { useEffect, useMemo } from 'react'
+import { observer } from 'mobx-react-lite'
+
+export function useMousePosition() {
+  const position = useMemo(() => observable({ x: 0, y: 0 }), [])
+  useEffect(() => {
+    console.log('useEffect')
+    const update = e =>
+      runInAction(() => {
+        position.x = e.pageX
+        position.y = e.pageY
+      })
+    document.addEventListener('mousemove', update)
+    return () => document.removeEventListener('mousemove', update)
+  }, [position])
+  return position
+}
+
+const App = observer(() => {
+  const { x, y } = useMousePosition()
+  return <div>{x}-{y}</div>
+})
+
+export default App
+```
+
 ## Vue 3 的变化
 
 `<template>` 标签中可以有多个根元素。
