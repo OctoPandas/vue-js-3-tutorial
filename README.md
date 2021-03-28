@@ -13,7 +13,7 @@ https://github.com/tuvtran/project-based-learning
 
 使用 Google 图片搜索 keyword + app 来确定功能。
 
-在 Dribble 上搜索并拓展功能。
+在 Dribbble 上启发灵感并拓展功能。
 
 ## 创建 Vue 工程
 
