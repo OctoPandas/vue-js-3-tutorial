@@ -47,6 +47,7 @@ body {
   border-radius: 24px;
   padding: 48px 28px;
   background: rgb(245, 246, 252);
+  margin: 20px;
 }
 
 h1 {
